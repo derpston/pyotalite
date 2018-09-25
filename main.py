@@ -1,0 +1,2 @@
+import pyotalite
+pyotalite.main()
