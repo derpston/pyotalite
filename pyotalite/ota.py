@@ -20,6 +20,16 @@ def check_for_update():
     print("Version check: %s vs %s" % (current, offered))
     return current != offered
 
+def makedirs(path):
+    """Make any directories necessary to make sure that `path` exists and is a directory."""
+    basedir = ""
+    for chunk in path.split("/"):
+        basedir += "/" + chunk
+        try:
+            os.mkdir(basedir)
+        except OSError as ex:
+            pass
+
 def do_update():
     current = get_current_version()
     version = get_ota_header()
@@ -81,6 +91,11 @@ def do_update():
             # Write file to flash
             new_path = "/versions/%s/%s" % (version, filename) 
             print("Writing %s (%d bytes)" % (new_path, len(content)))
+
+            # Make any necessary directories
+            basedir = new_path[:new_path.rindex("/")]
+            makedirs(basedir)
+
             fh = open(new_path, "w")
             fh.write(content)
             fh.close()
