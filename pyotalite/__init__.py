@@ -8,6 +8,8 @@ import pyotalite.config
 import pyotalite.ota
 
 def wifi_setup():
+    ap_if = network.WLAN(network.AP_IF)
+    ap_if.active(False)
     sta_if = network.WLAN(network.STA_IF)
     sta_if.active(True)
     print("Connecting to %s..." % (config.ssid))
